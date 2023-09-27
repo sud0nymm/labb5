@@ -1,0 +1,121 @@
+/*
+ * TND012, Lab5
+ * Author: ville
+ * 
+ */
+
+
+#include <iostream>
+#include <vector>
+#include <string>
+
+// declare any functons here
+std::vector <int> datainput();
+std::vector <int> differences(std::vector <int>, std::vector <int>);
+void histogram(std::vector <int>);
+void histogram_bar(int, std::string month);
+int counting_stars(int);
+
+
+// NO LOOPS INSIDE OF MAIN!
+int main() {
+    
+    // input variables needed
+    std::vector <int> difference;
+
+    // Read input sequence data for country X
+    std::cout << "Enter data for country X:\n";
+    std::vector <int> Country_X;
+    Country_X = datainput();
+
+    // Read input sequence data for Sweden
+    std::cout << "\nEnter data for Sweden:\n";
+    std::vector <int> Sweden;
+    Sweden = datainput();
+   
+    // calculate the difference between country X and Sweden
+    difference = differences(Sweden, Country_X);
+
+    if (std::ssize(Sweden) == std::size(Country_X)) {
+
+        // Display the histogram graph
+        histogram(difference);
+     
+    } else {
+        std::cout << "Invalid input!!\n";
+    }
+
+}
+
+// define any functions here
+
+// function for inputting data into a vector  
+std::vector <int> datainput() {
+     
+    std::vector <int> downloadsList;
+    int i;
+
+    do {
+       
+        std::cin >> i;
+        downloadsList.push_back(i);
+
+    } while (i >= 0);
+
+    downloadsList.pop_back();
+    return downloadsList;
+
+}
+
+// function for inputting difference into a vector
+std::vector <int> differences(std::vector <int> Sweden, std::vector <int> Country_X) {
+
+    std::vector <int> ghostvector;
+
+    for (int j = 0; j < std::size(Sweden); j++) {
+
+        int k = 0;
+        k = Sweden[j] - Country_X[j];
+        ghostvector.push_back(k);
+    }
+    return ghostvector;
+}
+
+// function for counting stars - function for dividing by 10, then rounding up or down
+int counting_stars(int amount) {
+
+    int stars = 0;
+    stars = (amount + 5) / 10;
+    return stars;
+
+}
+
+// function for creating histogram bar - uses function for counting stars to print the stars
+void histogram_bar(int size, std::string month) {
+
+    int k = 0;
+    k = counting_stars(size);
+
+    std::string s;
+
+    for (int i = 0; i < k; i++) {
+
+        s += '*';
+    }
+
+    std::cout << month << " " << s << std::endl;
+}
+
+// function for displaying histogram - repeats the histogram bar function 
+void histogram(std::vector <int> differences) {
+
+    std::string months[12] = { "J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"};
+
+    for (int i = 0; i < std::ssize(differences); i++) {
+
+        if (i % 6 == 0) {
+            std::cout << std::endl;
+        }
+        histogram_bar(differences[i], months[i % 12]);
+    }
+}
